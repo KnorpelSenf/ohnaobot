@@ -18,12 +18,4 @@ bot.chatType("private")
   .drop((ctx) => ctx.msg?.via_bot?.id === ctx.me.id)
   .on("message", (ctx) => ctx.reply("oh no"));
 
-const handleUpdate = webhookCallback(bot, "std/http", { secretToken });
-Deno.serve(async (req) => {
-  try {
-    return await handleUpdate(req);
-  } catch (err) {
-    console.error(err);
-    return new Response();
-  }
-});
+Deno.serve(webhookCallback(bot, "std/http", { secretToken }));
