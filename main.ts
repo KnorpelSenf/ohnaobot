@@ -4,7 +4,9 @@ import {
   webhookCallback,
 } from "https://deno.land/x/grammy@v1.19.2/mod.ts";
 
-const bot = new Bot(Deno.env.get("BOT_TOKEN") ?? "");
+const token = Deno.env.get("BOT_TOKEN") ?? "";
+const secretToken = token.replaceAll(":", "_");
+const bot = new Bot(token);
 const AUDIO = Deno.env.get("AUDIO_FILE_ID")!;
 
 bot.hears("oh no", (ctx) => ctx.replyWithVoice(AUDIO));
@@ -16,4 +18,4 @@ bot.chatType("private")
   .drop((ctx) => ctx.msg?.via_bot?.id === ctx.me.id)
   .on("message", (ctx) => ctx.reply("oh no"));
 
-export const handler = webhookCallback(bot, "std/http");
+export const handler = webhookCallback(bot, "std/http", { secretToken });
