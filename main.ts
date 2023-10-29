@@ -6,7 +6,7 @@ import {
 
 const token = Deno.env.get("BOT_TOKEN") ?? "";
 const secretToken = token.replaceAll(":", "_");
-const bot = new Bot(token);
+const bot = new Bot(token, { client: { canUseWebhookReply: () => true } });
 const AUDIO = Deno.env.get("AUDIO_FILE_ID")!;
 
 bot.hears("oh no", (ctx) => ctx.replyWithVoice(AUDIO));
