@@ -9,7 +9,7 @@ const secretToken = token.replaceAll(":", "_");
 const bot = new Bot(token, { client: { canUseWebhookReply: () => true } });
 const AUDIO = Deno.env.get("AUDIO_FILE_ID")!;
 
-bot.hears("oh no", (ctx) => ctx.replyWithVoice(AUDIO));
+bot.hears(/oh no/i, (ctx) => ctx.replyWithVoice(AUDIO));
 bot.on("inline_query", async (ctx) => {
   const result = InlineQueryResultBuilder.voiceCached("0", "oh no", AUDIO);
   await ctx.answerInlineQuery([result], { cache_time: 3600 });
